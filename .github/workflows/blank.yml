@@ -1,0 +1,46 @@
+name: Deploy jobs
+on:
+  push:
+    branches: 
+      - main
+      - develop
+      - feature/**
+
+jobs:
+  quality_check:
+    if: startsWith(github.ref_name, 'feature') && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code quality check
+        run: echo "Checked coded quality"
+        
+  deploy_develop:
+    if: github.ref_name == 'develop' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to develop
+        run: echo "Code deployed to develop"
+  
+  deploy_prod:
+    if: github.ref_name == 'main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Prod
+        run: echo "Code deployed to Prod"
+        
+  success_notify:
+    needs: ['quality_check', 'deploy_develop', 'deploy_prod']
+    if: always() && !failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify success
+        run: echo "Jobs completed successfully"
+        
+  failure_notify:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify failure
+        run: echo "Jobs failed"
+  
+  
