@@ -37,6 +37,7 @@ jobs:
         run: echo "Jobs completed successfully"
         
   failure_notify:
+    needs: ['quality_check', 'deploy_develop', 'deploy_prod']
     if: failure()
     runs-on: ubuntu-latest
     steps:
