@@ -1,0 +1,6 @@
+name: Use greeting
+on: push
+
+jobs:
+  call-greet:
+    uses: ./.github/workflows/blank.yml
