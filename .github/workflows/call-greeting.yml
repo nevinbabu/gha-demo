@@ -4,3 +4,5 @@ on: push
 jobs:
   call-greet:
     uses: ./.github/workflows/blank.yml
+    with:
+      user_name: "Nevin Babu"
